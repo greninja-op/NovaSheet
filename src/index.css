@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --af-bg: #ffffff;
+  --af-surface: #f3f2f1;
+  --af-surface-2: #faf9f8;
+  --af-border: #e1dfdd;
+  --af-fg: #323130;
+  --af-muted: #605e5c;
+  --af-accent: #217346;
+  --af-accent-fg: #ffffff;
+  --af-danger: #d83b01;
+  --af-grid-line: #e5e7eb;
+  --af-cell-selected: rgba(191, 219, 254, 0.5); /* blue-200 */
+  --af-cell-active-border: #3b82f6; /* blue-500 */
+  --af-header-bg: #f9fafb;
+  --af-header-fg: #4b5563;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+input, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: var(--af-surface); }
+*::-webkit-scrollbar-thumb { background: #2d333d; border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background: #3a424f; }
