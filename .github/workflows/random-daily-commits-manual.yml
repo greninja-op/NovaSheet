@@ -1,8 +1,7 @@
-name: Random Daily Commits (Scheduled)
+name: Random Daily Commits (Manual)
 
 on:
-  schedule:
-    - cron: '30 19 * * *' # Runs at 01:00 IST every day (19:30 UTC previous day)
+  workflow_dispatch:
 
 concurrency:
   group: random-daily-commits
@@ -41,16 +40,12 @@ jobs:
             exit 0
           fi
 
-          # Read last commit count or default to 0
           LAST_COUNT=0
           if [ -f .last_commit_count ]; then
             LAST_COUNT=$(cat .last_commit_count)
           fi
 
-          # Generate a random number between 6 and 20
           NEW_COUNT=$(( RANDOM % 15 + 6 ))
-
-          # Ensure the new count is not the same as yesterday
           while [ "$NEW_COUNT" -eq "$LAST_COUNT" ]; do
             NEW_COUNT=$(( RANDOM % 15 + 6 ))
           done
