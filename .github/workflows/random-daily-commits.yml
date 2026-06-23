@@ -1,0 +1,57 @@
+name: Random Daily Commits
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs at 00:00 UTC every day
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  make-commits:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine commit count
+        id: calc-commits
+        run: |
+          # Read last commit count or default to 0
+          LAST_COUNT=0
+          if [ -f .last_commit_count ]; then
+            LAST_COUNT=$(cat .last_commit_count)
+          fi
+
+          # Generate a random number between 6 and 20
+          NEW_COUNT=$(( RANDOM % 15 + 6 ))
+
+          # Ensure the new count is not the same as yesterday
+          while [ "$NEW_COUNT" -eq "$LAST_COUNT" ]; do
+            NEW_COUNT=$(( RANDOM % 15 + 6 ))
+          done
+
+          echo "Commits to make today: $NEW_COUNT (yesterday was $LAST_COUNT)"
+          echo "count=$NEW_COUNT" >> $GITHUB_OUTPUT
+          echo "$NEW_COUNT" > .last_commit_count
+
+      - name: Create commits
+        run: |
+          COUNT=${{ steps.calc-commits.outputs.count }}
+          for i in $(seq 1 $COUNT)
+          do
+            echo "Commit $i of $COUNT on $(date)" >> .daily_commit_log
+            git add .daily_commit_log .last_commit_count
+            git commit -m "chore: automated random daily commit $i"
+          done
+
+      - name: Push commits
+        run: git push
