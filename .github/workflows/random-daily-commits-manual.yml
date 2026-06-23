@@ -36,6 +36,7 @@ jobs:
           if [ "$TODAY_IST" = "$LAST_DATE" ]; then
             echo "Commits for IST date $TODAY_IST already exist. Skipping."
             echo "count=0" >> $GITHUB_OUTPUT
+            echo "today_ist=$TODAY_IST" >> $GITHUB_OUTPUT
             echo "should_commit=false" >> $GITHUB_OUTPUT
             exit 0
           fi
@@ -52,17 +53,21 @@ jobs:
 
           echo "Commits to make today: $NEW_COUNT (yesterday was $LAST_COUNT)"
           echo "count=$NEW_COUNT" >> $GITHUB_OUTPUT
+          echo "today_ist=$TODAY_IST" >> $GITHUB_OUTPUT
           echo "should_commit=true" >> $GITHUB_OUTPUT
-          echo "$NEW_COUNT" > .last_commit_count
-          echo "$TODAY_IST" > .last_commit_date
 
       - name: Create commits
         if: steps.calc-commits.outputs.should_commit == 'true'
         run: |
           COUNT=${{ steps.calc-commits.outputs.count }}
+          TODAY_IST=${{ steps.calc-commits.outputs.today_ist }}
           for i in $(seq 1 $COUNT)
           do
-            echo "Commit $i of $COUNT on IST day $(TZ=Asia/Kolkata date +%F) at $(date -u +%FT%TZ)" >> .daily_commit_log
+            if [ "$i" -eq 1 ]; then
+              echo "$COUNT" > .last_commit_count
+              echo "$TODAY_IST" > .last_commit_date
+            fi
+            echo "Commit $i of $COUNT on IST day $TODAY_IST at $(date -u +%FT%TZ)" >> .daily_commit_log
             git add .daily_commit_log .last_commit_count .last_commit_date
             git commit -m "chore: automated random daily commit $i"
           done
