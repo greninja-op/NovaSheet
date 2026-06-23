@@ -16,11 +16,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Setup Git
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git remote update
+          git pull # make sure we are up to date before committing
 
       - name: Determine commit count
         id: calc-commits
@@ -50,7 +53,7 @@ jobs:
           do
             echo "Commit $i of $COUNT on $(date)" >> .daily_commit_log
             git add .daily_commit_log .last_commit_count
-            git commit -m "chore: automated random daily commit $i"
+            git commit -m "chore: automated random daily commit $i of $COUNT"
           done
 
       - name: Push commits
