@@ -27,7 +27,7 @@ export const Titlebar = () => {
   return (
     <div
       data-tauri-drag-region
-      className="flex h-8 items-center justify-between bg-transparent select-none relative z-50 text-gray-600"
+      className="flex h-10 items-center justify-between bg-gray-50 border-b border-gray-200 select-none relative z-50 text-gray-700"
     >
       <div
         data-tauri-drag-region

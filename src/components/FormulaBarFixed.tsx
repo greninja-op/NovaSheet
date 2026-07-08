@@ -53,7 +53,7 @@ export const FormulaBarFixed = () => {
   return (
     <div className="flex items-center gap-3">
       {/* Name Box & fx Pill */}
-      <div className="flex items-center bg-white rounded-full shadow-sm border border-white/50 px-4 py-1 h-12 gap-5 shrink-0">
+      <div className="flex items-center bg-gray-50 rounded-xl shadow-inner border border-gray-200 px-5 py-2 h-14 gap-6 shrink-0">
         <div className="flex items-center justify-center min-w-10 text-[15px] text-gray-800">
           {toA1(active.r, active.c)}
         </div>
@@ -63,7 +63,7 @@ export const FormulaBarFixed = () => {
       </div>
 
       {/* Formula Input Pill */}
-      <div className="flex-1 flex items-center bg-white rounded-full shadow-sm border border-white/50 px-5 py-1 h-12">
+      <div className="flex-1 flex items-center bg-white rounded-xl shadow-md border border-gray-100 px-6 py-2 h-14">
         <input
           ref={inputRef}
           value={cellRaw}

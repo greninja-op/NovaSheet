@@ -18,7 +18,7 @@ const tabs: { id: TabId; label: string }[] = [
 
 export const RibbonTabsFixed = ({ activeTab, onTabChange }: RibbonTabsProps) => {
   return (
-    <div className="flex items-center h-12 px-6 bg-white rounded-full shadow-sm w-full gap-2 border border-white/50">
+    <div className="flex items-center h-14 px-8 bg-white rounded-full shadow-md w-full gap-3 border border-gray-100">
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
         return (

@@ -74,7 +74,7 @@ export const RibbonFixed = () => {
   const clearAll = () => clearStyleRange(sel);
 
   return (
-    <div className="flex items-center bg-white rounded-3xl shadow-sm border border-white/50 px-5 py-2 w-full gap-1">
+    <div className="flex items-center bg-white rounded-2xl shadow-md border border-gray-100 px-6 py-3 w-full gap-2">
       {/* Font Section */}
       <Section title="Font">
         <div className="flex items-center gap-1">
